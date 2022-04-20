@@ -7,9 +7,6 @@ function App() {
   const indexes = useRef([]);
   const [currImage, setCurrImage] = useState({});
 
-  // console.log("Images: " + images);
-  // console.log("Ind: " + indexes.current);
-
   useEffect(() => {
     function getImages() {
       fetch("http://j0.wlmediahub.com/App_Themes/api/test/photos.js")
@@ -29,7 +26,6 @@ function App() {
     for (let i = 0; i < num; i++) {
       arr.push(getRandomInd(arr, 0, array.length));
     }
-    // console.log(length);
     return arr;
   }
 
