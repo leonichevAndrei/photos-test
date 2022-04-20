@@ -8,14 +8,15 @@ function App() {
   const [currImage, setCurrImage] = useState({});
 
   // console.log("Images: " + images);
-  console.log("Ind: " + indexes.current);
+  // console.log("Ind: " + indexes.current);
 
   useEffect(() => {
     function getImages() {
       fetch("http://j0.wlmediahub.com/App_Themes/api/test/photos.js")
         .then(response => response.json())
         .then(result => setImages(() => {
-          indexes.current = getRandomIndexes(result['photo'], 5);
+          const num = result['photo'].length > 5 ? 5 : result['photo'].length;
+          indexes.current = getRandomIndexes(result['photo'], num);
           setCurrImage(result['photo'][indexes.current[0]]);
           return result['photo'];
         }));
@@ -34,9 +35,11 @@ function App() {
 
   function getRandomInd(arr, min, max) {
     let result = getRandom(min, max);
-    do {
-      result = getRandom(min, max);
-    } while (arr.indexOf(result) !== -1 && indexes.current.indexOf(result) !== -1);
+    if (images.length >= 10) {
+      do {
+        result = getRandom(min, max);
+      } while (arr.indexOf(result) !== -1 && indexes.current.indexOf(result) !== -1);
+    }
     return result;
   }
 
@@ -51,7 +54,8 @@ function App() {
 
   function getNewImages(e) {
     e.preventDefault();
-    indexes.current = getRandomIndexes(images, 5);
+    const num = images.length > 5 ? 5 : images.length;
+    indexes.current = getRandomIndexes(images, num);
     setCurrImage(images[indexes.current[0]]);
   }
 
